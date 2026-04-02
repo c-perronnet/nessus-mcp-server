@@ -8,7 +8,7 @@ progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 # Project State
@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 2 of 4 (HTTP Client and Infrastructure)
-Plan: 1 of 2 in current phase -- COMPLETE
-Status: Executing Phase 2
-Last activity: 2026-04-02 — Completed 02-01-PLAN.md (types and error infrastructure)
+Phase: 2 of 4 (HTTP Client and Infrastructure) -- COMPLETE
+Plan: 2 of 2 in current phase -- COMPLETE
+Status: Phase 2 Complete
+Last activity: 2026-04-02 — Completed 02-02-PLAN.md (HTTP client and API wiring)
 
-Progress: [████░░░░░░] 30%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -49,6 +49,7 @@ Progress: [████░░░░░░] 30%
 *Updated after each plan completion*
 | Phase 01 P02 | 1 min | 3 tasks | 3 files |
 | Phase 02-01 P01 | 2 min | 2 tasks | 2 files |
+| Phase 02-02 P02 | 3 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - [Phase 01]: All logging via console.error to preserve MCP stdio framing
 - [Phase 02-01]: Used unknown instead of any for unconfirmed Tenable API response fields
 - [Phase 02-01]: DOMException check before generic Error in handleNessusApiError for specificity
+- [Phase 02-02]: TenableClient instantiation kept inside initializeNessusApi as internal detail
+- [Phase 02-02]: getClient() guard pattern for typed CONFIGURATION_ERROR instead of null assertions
+- [Phase 02-02]: startScan single POST /scans; full create+launch deferred to Phase 3
 
 ### Pending Todos
 
@@ -77,5 +81,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-02
-Stopped at: Completed 02-01-PLAN.md
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

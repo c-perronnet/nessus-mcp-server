@@ -17,12 +17,12 @@ Requirements for production-ready Tenable.io integration. Each maps to roadmap p
 
 ### Tenable.io HTTP Client
 
-- [ ] **HTTP-01**: Dedicated HTTP client module (`tenable-client.ts`) handles all Tenable.io API calls
-- [ ] **HTTP-02**: Every request includes `X-ApiKeys: accessKey=<key>;secretKey=<key>` authentication header
-- [ ] **HTTP-03**: Request timeout (30s default) using `AbortController` prevents hanging requests
-- [ ] **HTTP-04**: HTTP status codes (401, 403, 404, 429, 500) map to structured MCP error types
-- [ ] **HTTP-05**: Rate-limit handling detects 429 responses and applies exponential backoff with `p-retry`
-- [ ] **HTTP-06**: Client-side rate throttling via `p-throttle` prevents proactive rate-limit exhaustion
+- [x] **HTTP-01**: Dedicated HTTP client module (`tenable-client.ts`) handles all Tenable.io API calls
+- [x] **HTTP-02**: Every request includes `X-ApiKeys: accessKey=<key>;secretKey=<key>` authentication header
+- [x] **HTTP-03**: Request timeout (30s default) using `AbortController` prevents hanging requests
+- [x] **HTTP-04**: HTTP status codes (401, 403, 404, 429, 500) map to structured MCP error types
+- [x] **HTTP-05**: Rate-limit handling detects 429 responses and applies exponential backoff with `p-retry`
+- [x] **HTTP-06**: Client-side rate throttling via `p-throttle` prevents proactive rate-limit exhaustion
 
 ### Type Safety
 
@@ -125,12 +125,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SAFE-03 | Phase 1 | Complete |
 | SAFE-04 | Phase 1 | Complete |
 | SAFE-05 | Phase 1 | Complete |
-| HTTP-01 | Phase 2 | Pending |
-| HTTP-02 | Phase 2 | Pending |
-| HTTP-03 | Phase 2 | Pending |
-| HTTP-04 | Phase 2 | Pending |
-| HTTP-05 | Phase 2 | Pending |
-| HTTP-06 | Phase 2 | Pending |
+| HTTP-01 | Phase 2 | Complete |
+| HTTP-02 | Phase 2 | Complete |
+| HTTP-03 | Phase 2 | Complete |
+| HTTP-04 | Phase 2 | Complete |
+| HTTP-05 | Phase 2 | Complete |
+| HTTP-06 | Phase 2 | Complete |
 | TYPE-01 | Phase 2 | Complete |
 | TYPE-02 | Phase 2 | Complete |
 | TMPL-01 | Phase 3 | Pending |
