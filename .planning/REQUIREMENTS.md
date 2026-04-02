@@ -62,15 +62,15 @@ Requirements for production-ready Tenable.io integration. Each maps to roadmap p
 
 ### Tool: get_vulnerability_details
 
-- [ ] **VULN-01**: Tool routes to Workbenches API (`GET /workbenches/vulnerabilities`) with appropriate filters
-- [ ] **VULN-02**: Accepts both CVE ID and plugin ID as input
-- [ ] **VULN-03**: Handles multi-result responses (CVE may map to multiple plugins)
+- [x] **VULN-01**: Tool routes to Workbenches API (`GET /workbenches/vulnerabilities`) with appropriate filters
+- [x] **VULN-02**: Accepts both CVE ID and plugin ID as input
+- [x] **VULN-03**: Handles multi-result responses (CVE may map to multiple plugins)
 
 ### Tool: search_vulnerabilities
 
-- [ ] **SRCH-01**: Tool routed through `nessus-api.ts` (not direct `mock-data.ts` import)
-- [ ] **SRCH-02**: Uses Workbenches API `text_filter` parameter for keyword search
-- [ ] **SRCH-03**: Response schema normalized from Tenable.io format (plugin_id, plugin_name, severity int)
+- [x] **SRCH-01**: Tool routed through `nessus-api.ts` (not direct `mock-data.ts` import)
+- [x] **SRCH-02**: Uses Workbenches API `text_filter` parameter for keyword search
+- [x] **SRCH-03**: Response schema normalized from Tenable.io format (plugin_id, plugin_name, severity int)
 
 ### Error Handling
 
@@ -149,12 +149,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LIST-01 | Phase 3 | Pending |
 | LIST-02 | Phase 3 | Pending |
 | LIST-03 | Phase 3 | Pending |
-| VULN-01 | Phase 3 | Pending |
-| VULN-02 | Phase 3 | Pending |
-| VULN-03 | Phase 3 | Pending |
-| SRCH-01 | Phase 3 | Pending |
-| SRCH-02 | Phase 3 | Pending |
-| SRCH-03 | Phase 3 | Pending |
+| VULN-01 | Phase 3 | Complete |
+| VULN-02 | Phase 3 | Complete |
+| VULN-03 | Phase 3 | Complete |
+| SRCH-01 | Phase 3 | Complete |
+| SRCH-02 | Phase 3 | Complete |
+| SRCH-03 | Phase 3 | Complete |
 | ERR-01 | Phase 2 | Complete |
 | ERR-02 | Phase 2 | Complete |
 | ERR-03 | Phase 2 | Complete |

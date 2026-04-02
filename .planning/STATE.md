@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 3 of 4 (Real Tenable.io API Integration) -- IN PROGRESS
-Plan: 1 of 2 in current phase -- Plan 03-01 COMPLETE
-Status: Executing Phase 3
-Last activity: 2026-04-02 — Completed 03-01-PLAN.md (Scan tools wired to real API)
+Phase: 3 of 4 (Real Tenable.io API Integration) -- COMPLETE
+Plan: 2 of 2 in current phase -- Plan 03-02 COMPLETE
+Status: Phase 3 complete, ready for Phase 4
+Last activity: 2026-04-02 — Completed 03-02-PLAN.md (Vulnerability tools wired to real API)
 
-Progress: [██████░░░░] 62%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -50,6 +50,8 @@ Progress: [██████░░░░] 62%
 | Phase 01 P02 | 1 min | 3 tasks | 3 files |
 | Phase 02-01 P01 | 2 min | 2 tasks | 2 files |
 | Phase 02-02 P02 | 3 min | 2 tasks | 4 files |
+| Phase 03-01 P01 | - | - | - |
+| Phase 03-02 P02 | 6 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +74,9 @@ Recent decisions affecting current work:
 - [Phase 03-01]: Permissive target validation — Tenable handles server-side validation for CIDR/ranges
 - [Phase 03-01]: Removed scan type whitelist — accept any string (UUID or friendly name)
 - [Phase 03-01]: Epoch-to-ISO conversion in handler layer, not API layer
+- [Phase 03-02]: unknown return type for plugin info endpoint — schema unconfirmed until live testing
+- [Phase 03-02]: SEVERITY_LABELS copied into vulnerabilities.ts (not shared module) — matches scans.ts pattern
+- [Phase 03-02]: Multi-shape formatter detects response type by field presence (vulnerabilities array, plugin_name, name)
 
 ### Pending Todos
 
@@ -85,5 +90,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-02
-Stopped at: Completed 03-01-PLAN.md, starting 03-02
+Stopped at: Completed 03-02-PLAN.md — Phase 3 complete
 Resume file: None
