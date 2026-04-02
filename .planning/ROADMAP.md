@@ -41,7 +41,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A request that takes longer than 30 seconds is cancelled and returns a `TIMEOUT` error to the caller
   4. A 429 response triggers exponential backoff retries rather than immediately returning an error to the MCP client
   5. `src/types/tenable.ts` exists with typed interfaces for all Tenable.io API responses — no `any` types remain in API call paths
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Type definitions (tenable.ts) and error type extensions (ERR + TYPE requirements)
+- [ ] 02-02-PLAN.md — TenableClient HTTP client with auth, retry, throttle, and nessus-api.ts wiring (HTTP requirements)
 
 ### Phase 3: Real Tenable.io API Integration
 **Goal**: All 7 MCP tools call real Tenable.io endpoints, return correctly shaped responses, and handle edge cases documented in the API
@@ -73,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Safety and Correctness | 0/TBD | Complete    | 2026-04-02 |
-| 2. HTTP Client and Infrastructure | 0/TBD | Not started | - |
+| 1. Safety and Correctness | 2/2 | Complete    | 2026-04-02 |
+| 2. HTTP Client and Infrastructure | 0/2 | Not started | - |
 | 3. Real Tenable.io API Integration | 0/TBD | Not started | - |
 | 4. Test Suite | 0/TBD | Not started | - |
