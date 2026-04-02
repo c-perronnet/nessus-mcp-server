@@ -120,55 +120,55 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SAFE-01 | — | Pending |
-| SAFE-02 | — | Pending |
-| SAFE-03 | — | Pending |
-| SAFE-04 | — | Pending |
-| SAFE-05 | — | Pending |
-| HTTP-01 | — | Pending |
-| HTTP-02 | — | Pending |
-| HTTP-03 | — | Pending |
-| HTTP-04 | — | Pending |
-| HTTP-05 | — | Pending |
-| HTTP-06 | — | Pending |
-| TYPE-01 | — | Pending |
-| TYPE-02 | — | Pending |
-| TMPL-01 | — | Pending |
-| TMPL-02 | — | Pending |
-| SCAN-01 | — | Pending |
-| SCAN-02 | — | Pending |
-| SCAN-03 | — | Pending |
-| SCAN-04 | — | Pending |
-| SCAN-05 | — | Pending |
-| STAT-01 | — | Pending |
-| STAT-02 | — | Pending |
-| RSLT-01 | — | Pending |
-| RSLT-02 | — | Pending |
-| RSLT-03 | — | Pending |
-| RSLT-04 | — | Pending |
-| LIST-01 | — | Pending |
-| LIST-02 | — | Pending |
-| LIST-03 | — | Pending |
-| VULN-01 | — | Pending |
-| VULN-02 | — | Pending |
-| VULN-03 | — | Pending |
-| SRCH-01 | — | Pending |
-| SRCH-02 | — | Pending |
-| SRCH-03 | — | Pending |
-| ERR-01 | — | Pending |
-| ERR-02 | — | Pending |
-| ERR-03 | — | Pending |
-| TEST-01 | — | Pending |
-| TEST-02 | — | Pending |
-| TEST-03 | — | Pending |
-| TEST-04 | — | Pending |
-| TEST-05 | — | Pending |
+| SAFE-01 | Phase 1 | Pending |
+| SAFE-02 | Phase 1 | Pending |
+| SAFE-03 | Phase 1 | Pending |
+| SAFE-04 | Phase 1 | Pending |
+| SAFE-05 | Phase 1 | Pending |
+| HTTP-01 | Phase 2 | Pending |
+| HTTP-02 | Phase 2 | Pending |
+| HTTP-03 | Phase 2 | Pending |
+| HTTP-04 | Phase 2 | Pending |
+| HTTP-05 | Phase 2 | Pending |
+| HTTP-06 | Phase 2 | Pending |
+| TYPE-01 | Phase 2 | Pending |
+| TYPE-02 | Phase 2 | Pending |
+| TMPL-01 | Phase 3 | Pending |
+| TMPL-02 | Phase 3 | Pending |
+| SCAN-01 | Phase 3 | Pending |
+| SCAN-02 | Phase 3 | Pending |
+| SCAN-03 | Phase 3 | Pending |
+| SCAN-04 | Phase 3 | Pending |
+| SCAN-05 | Phase 3 | Pending |
+| STAT-01 | Phase 3 | Pending |
+| STAT-02 | Phase 3 | Pending |
+| RSLT-01 | Phase 3 | Pending |
+| RSLT-02 | Phase 3 | Pending |
+| RSLT-03 | Phase 3 | Pending |
+| RSLT-04 | Phase 3 | Pending |
+| LIST-01 | Phase 3 | Pending |
+| LIST-02 | Phase 3 | Pending |
+| LIST-03 | Phase 3 | Pending |
+| VULN-01 | Phase 3 | Pending |
+| VULN-02 | Phase 3 | Pending |
+| VULN-03 | Phase 3 | Pending |
+| SRCH-01 | Phase 3 | Pending |
+| SRCH-02 | Phase 3 | Pending |
+| SRCH-03 | Phase 3 | Pending |
+| ERR-01 | Phase 2 | Pending |
+| ERR-02 | Phase 2 | Pending |
+| ERR-03 | Phase 2 | Pending |
+| TEST-01 | Phase 4 | Pending |
+| TEST-02 | Phase 4 | Pending |
+| TEST-03 | Phase 4 | Pending |
+| TEST-04 | Phase 4 | Pending |
+| TEST-05 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 43 total
-- Mapped to phases: 0
-- Unmapped: 43
+- Mapped to phases: 43
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-02*
-*Last updated: 2026-04-02 after initial definition*
+*Last updated: 2026-04-02 after roadmap creation*
