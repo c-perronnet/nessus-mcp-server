@@ -12,7 +12,7 @@ This roadmap takes an existing mock-only MCP server and delivers a production-gr
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Safety and Correctness** - Fix production blockers in the existing codebase before touching the real API
+- [x] **Phase 1: Safety and Correctness** - Fix production blockers in the existing codebase before touching the real API (completed 2026-04-02)
 - [ ] **Phase 2: HTTP Client and Infrastructure** - Build the HTTP client, type definitions, and error handling that all tools depend on
 - [ ] **Phase 3: Real Tenable.io API Integration** - Wire all 7 tools to real Tenable.io endpoints
 - [ ] **Phase 4: Test Suite** - Add Vitest test suite covering all tools, HTTP client, and error paths
@@ -73,7 +73,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Safety and Correctness | 0/TBD | Not started | - |
+| 1. Safety and Correctness | 0/TBD | Complete    | 2026-04-02 |
 | 2. HTTP Client and Infrastructure | 0/TBD | Not started | - |
 | 3. Real Tenable.io API Integration | 0/TBD | Not started | - |
 | 4. Test Suite | 0/TBD | Not started | - |
