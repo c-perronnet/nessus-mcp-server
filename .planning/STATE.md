@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** AI assistants can trigger, monitor, and retrieve results from real Tenable.io vulnerability scans through a reliable, secure MCP interface.
-**Current focus:** Phase 2 — HTTP Client and Infrastructure
+**Current focus:** Phase 3 — Real Tenable.io API Integration
 
 ## Current Position
 
-Phase: 2 of 4 (HTTP Client and Infrastructure) -- COMPLETE
-Plan: 2 of 2 in current phase -- COMPLETE
-Status: Phase 2 Complete
-Last activity: 2026-04-02 — Completed 02-02-PLAN.md (HTTP client and API wiring)
+Phase: 3 of 4 (Real Tenable.io API Integration) -- IN PROGRESS
+Plan: 1 of 2 in current phase -- Plan 03-01 COMPLETE
+Status: Executing Phase 3
+Last activity: 2026-04-02 — Completed 03-01-PLAN.md (Scan tools wired to real API)
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 62%
 
 ## Performance Metrics
 
@@ -68,6 +68,10 @@ Recent decisions affecting current work:
 - [Phase 02-02]: TenableClient instantiation kept inside initializeNessusApi as internal detail
 - [Phase 02-02]: getClient() guard pattern for typed CONFIGURATION_ERROR instead of null assertions
 - [Phase 02-02]: startScan single POST /scans; full create+launch deferred to Phase 3
+- [Phase 03-01]: Two-step create+launch flow for startScan (POST /scans then POST /scans/{id}/launch)
+- [Phase 03-01]: Permissive target validation — Tenable handles server-side validation for CIDR/ranges
+- [Phase 03-01]: Removed scan type whitelist — accept any string (UUID or friendly name)
+- [Phase 03-01]: Epoch-to-ISO conversion in handler layer, not API layer
 
 ### Pending Todos
 
@@ -81,5 +85,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-02
-Stopped at: Completed 02-02-PLAN.md
+Stopped at: Completed 03-01-PLAN.md, starting 03-02
 Resume file: None
