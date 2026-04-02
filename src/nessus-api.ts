@@ -186,7 +186,7 @@ export const getVulnerabilityDetails = async (vulnId: string) => {
   // CVE ID — use cve filter on workbenches
   if (/^CVE-\d{4}-\d{4,}$/i.test(vulnId)) {
     return getClient().get<TenableWorkbenchVulnsResponse>(
-      `/workbenches/vulnerabilities?filter.0.filter=cve&filter.0.quality=eq&filter.0.value=${encodedId}`,
+      `/workbenches/vulnerabilities?filter.0.filter=plugin.attributes.cve.raw&filter.0.quality=eq&filter.0.value=${encodedId}`,
     );
   }
 
@@ -199,7 +199,7 @@ export const getVulnerabilityDetails = async (vulnId: string) => {
 
   // Fallback — treat as plugin name keyword search
   return getClient().get<TenableWorkbenchVulnsResponse>(
-    `/workbenches/vulnerabilities?filter.0.filter=plugin_name&filter.0.quality=match&filter.0.value=${encodedId}`,
+    `/workbenches/vulnerabilities?filter.0.filter=plugin.name&filter.0.quality=match&filter.0.value=${encodedId}`,
   );
 };
 
@@ -221,7 +221,7 @@ export const searchVulnerabilities = async (keyword: string) => {
 
   const encodedKeyword = encodeURIComponent(keyword);
   return getClient().get<TenableWorkbenchVulnsResponse>(
-    `/workbenches/vulnerabilities?filter.0.filter=plugin_name&filter.0.quality=match&filter.0.value=${encodedKeyword}`,
+    `/workbenches/vulnerabilities?filter.0.filter=plugin.name&filter.0.quality=match&filter.0.value=${encodedKeyword}`,
   );
 };
 
