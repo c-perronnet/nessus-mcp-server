@@ -26,8 +26,8 @@ Requirements for production-ready Tenable.io integration. Each maps to roadmap p
 
 ### Type Safety
 
-- [ ] **TYPE-01**: Typed interfaces for all Tenable.io API responses in `src/types/tenable.ts` (no `any` types)
-- [ ] **TYPE-02**: Scan ID typed as number, scan UUID typed as string, enforced at abstraction boundary
+- [x] **TYPE-01**: Typed interfaces for all Tenable.io API responses in `src/types/tenable.ts` (no `any` types)
+- [x] **TYPE-02**: Scan ID typed as number, scan UUID typed as string, enforced at abstraction boundary
 
 ### Tool: list_scan_templates
 
@@ -74,9 +74,9 @@ Requirements for production-ready Tenable.io integration. Each maps to roadmap p
 
 ### Error Handling
 
-- [ ] **ERR-01**: `NessusErrorType` extended with `RATE_LIMITED`, `AUTH_FAILED`, `TIMEOUT` types
-- [ ] **ERR-02**: HTTP 409 mapped to `SCAN_IN_PROGRESS` error type
-- [ ] **ERR-03**: All error paths return structured MCP error responses (no raw exceptions)
+- [x] **ERR-01**: `NessusErrorType` extended with `RATE_LIMITED`, `AUTH_FAILED`, `TIMEOUT` types
+- [x] **ERR-02**: HTTP 409 mapped to `SCAN_IN_PROGRESS` error type
+- [x] **ERR-03**: All error paths return structured MCP error responses (no raw exceptions)
 
 ### Testing
 
@@ -131,8 +131,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HTTP-04 | Phase 2 | Pending |
 | HTTP-05 | Phase 2 | Pending |
 | HTTP-06 | Phase 2 | Pending |
-| TYPE-01 | Phase 2 | Pending |
-| TYPE-02 | Phase 2 | Pending |
+| TYPE-01 | Phase 2 | Complete |
+| TYPE-02 | Phase 2 | Complete |
 | TMPL-01 | Phase 3 | Pending |
 | TMPL-02 | Phase 3 | Pending |
 | SCAN-01 | Phase 3 | Pending |
@@ -155,9 +155,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SRCH-01 | Phase 3 | Pending |
 | SRCH-02 | Phase 3 | Pending |
 | SRCH-03 | Phase 3 | Pending |
-| ERR-01 | Phase 2 | Pending |
-| ERR-02 | Phase 2 | Pending |
-| ERR-03 | Phase 2 | Pending |
+| ERR-01 | Phase 2 | Complete |
+| ERR-02 | Phase 2 | Complete |
+| ERR-03 | Phase 2 | Complete |
 | TEST-01 | Phase 4 | Pending |
 | TEST-02 | Phase 4 | Pending |
 | TEST-03 | Phase 4 | Pending |
