@@ -17,6 +17,8 @@
   "description": "",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.8.0",
+    "p-retry": "^8.0.0",
+    "p-throttle": "^8.1.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
