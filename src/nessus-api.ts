@@ -18,6 +18,7 @@ import type {
   TenableTemplateListResponse,
   TenableScanDetailsResponse,
   TenableCreateScanResponse,
+  TenableLaunchScanResponse,
   TenableWorkbenchVulnsResponse,
 } from './types/tenable.js';
 
@@ -101,16 +102,21 @@ export const startScan = async (target: string, scanType: string) => {
     };
   }
 
-  // Basic create-scan call. Full two-step create+launch flow is Phase 3 (SCAN-01/02).
-  const result = await getClient().post<TenableCreateScanResponse>('/scans', {
+  // Two-step create+launch flow per Tenable.io API
+  const createResult = await getClient().post<TenableCreateScanResponse>('/scans', {
     uuid: scanType,
-    settings: { name: 'MCP Scan', text_targets: target },
+    settings: { name: 'MCP Scan - ' + target, text_targets: target },
   });
 
+  const launchResult = await getClient().post<TenableLaunchScanResponse>(
+    '/scans/' + createResult.scan.id + '/launch',
+  );
+
   return {
-    scan_id: String(result.scan.id),
-    status: 'created',
-    message: 'Scan created',
+    scan_id: createResult.scan.id,
+    scan_uuid: launchResult.scan_uuid,
+    status: 'launched',
+    message: 'Scan created and launched',
   };
 };
 

@@ -41,6 +41,18 @@ export const listScanTemplatesToolHandler = async () => {
     };
   } catch (error) {
     const mcpError = handleNessusApiError(error);
+    const message = mcpError.message || '';
+    if (message.includes('403')) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: 'Permission denied: The API key does not have the Standard [32] role required to list scan templates. You can either upgrade the API key permissions in the Tenable.io console, or pass a template UUID directly to start_scan.'
+          }
+        ],
+        isError: true
+      };
+    }
     return {
       content: [
         {
@@ -64,11 +76,11 @@ export const startScanToolSchema = {
     properties: {
       target: {
         type: 'string',
-        description: 'Target IP address or hostname to scan'
+        description: 'Target IP, hostname, CIDR range (e.g., 192.168.1.0/24), or comma-separated list'
       },
       scan_type: {
         type: 'string',
-        description: 'Type of scan to run (basic-network-scan, web-app-scan, compliance-scan)'
+        description: 'Template UUID (e.g., 731a8e52-...) or scan template name'
       }
     },
     required: ['target', 'scan_type']
@@ -193,6 +205,21 @@ export const getScanResultsToolHandler = async (args: Record<string, unknown>) =
       };
     }
 
+    // Check if scan is still in progress — return informative (non-error) message
+    const scanStatus = (results as any).info?.status;
+    const incompleteStatuses = ['running', 'pending', 'initializing', 'paused'];
+    if (scanStatus && incompleteStatuses.includes(scanStatus)) {
+      const scanName = (results as any).info?.name || 'Unknown';
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Scan '${scanName}' is currently ${scanStatus}. Use get_scan_status to monitor progress and try again when the scan is completed.`
+          }
+        ]
+      };
+    }
+
     // Format the results
     const formattedResults = formatScanResults(results);
 
@@ -235,11 +262,22 @@ export const listScansToolHandler = async () => {
     // Get all scans
     const scans = await listScans();
 
+    // Null guard and epoch-to-ISO timestamp conversion
+    const scanList = ((scans as any).scans ?? []).map((scan: any) => ({
+      ...scan,
+      creation_date: scan.creation_date
+        ? new Date(scan.creation_date * 1000).toISOString()
+        : scan.creation_date,
+      last_modification_date: scan.last_modification_date
+        ? new Date(scan.last_modification_date * 1000).toISOString()
+        : scan.last_modification_date,
+    }));
+
     return {
       content: [
         {
           type: 'text',
-          text: JSON.stringify(scans, null, 2)
+          text: JSON.stringify({ ...scans, scans: scanList }, null, 2)
         }
       ]
     };
