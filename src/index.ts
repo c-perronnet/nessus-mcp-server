@@ -38,6 +38,7 @@ import {
 
 // Initialize the Nessus API client
 const initializeApi = () => {
+  // Expected format: https://cloud.tenable.com (no trailing slash)
   const nessusUrl = process.env.NESSUS_URL;
   const nessusAccessKey = process.env.NESSUS_ACCESS_KEY;
   const nessusSecretKey = process.env.NESSUS_SECRET_KEY;
