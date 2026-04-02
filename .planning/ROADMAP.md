@@ -72,7 +72,11 @@ Plans:
   2. `tenable-client.ts` HTTP functions are covered by unit tests that mock `fetch` — no real network calls
   3. All 7 tool handlers have tests that exercise them in mock mode (activated by omitting API credentials)
   4. Starting the server without credentials fails the startup test with the expected error message
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Vitest setup + error-handling validation tests + TenableClient HTTP tests (TEST-01, TEST-02, TEST-03)
+- [ ] 04-02-PLAN.md — Tool handler tests for all 7 tools in mock mode + startup credential test (TEST-04, TEST-05)
 
 ## Progress
 
@@ -84,4 +88,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Safety and Correctness | 2/2 | Complete    | 2026-04-02 |
 | 2. HTTP Client and Infrastructure | 2/2 | Complete    | 2026-04-02 |
 | 3. Real Tenable.io API Integration | 0/2 | Not started | - |
-| 4. Test Suite | 0/TBD | Not started | - |
+| 4. Test Suite | 0/2 | Not started | - |
