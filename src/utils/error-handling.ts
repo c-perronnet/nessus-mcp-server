@@ -14,7 +14,10 @@ export enum NessusErrorType {
   INVALID_TARGET = 'invalid_target',
   SCAN_IN_PROGRESS = 'scan_in_progress',
   API_ERROR = 'api_error',
-  CONFIGURATION_ERROR = 'configuration_error'
+  CONFIGURATION_ERROR = 'configuration_error',
+  RATE_LIMITED = 'rate_limited',
+  AUTH_FAILED = 'auth_failed',
+  TIMEOUT = 'timeout'
 }
 
 /**
@@ -40,11 +43,21 @@ export const createNessusError = (
     case NessusErrorType.INVALID_TARGET:
       code = ErrorCode.InvalidParams;
       break;
+    case NessusErrorType.SCAN_IN_PROGRESS:
+      code = ErrorCode.InvalidRequest;
+      break;
     case NessusErrorType.API_ERROR:
       code = ErrorCode.InternalError;
       break;
     case NessusErrorType.CONFIGURATION_ERROR:
       code = ErrorCode.InternalError;
+      break;
+    case NessusErrorType.RATE_LIMITED:
+    case NessusErrorType.TIMEOUT:
+      code = ErrorCode.InternalError;
+      break;
+    case NessusErrorType.AUTH_FAILED:
+      code = ErrorCode.InvalidParams;
       break;
     default:
       code = ErrorCode.InternalError;
@@ -54,12 +67,53 @@ export const createNessusError = (
 };
 
 /**
+ * Map an HTTP status code to the corresponding NessusErrorType.
+ * @param status HTTP status code from the Tenable.io API response
+ */
+export const httpStatusToErrorType = (status: number): NessusErrorType => {
+  switch (status) {
+    case 401:
+    case 403:
+      return NessusErrorType.AUTH_FAILED;
+    case 404:
+      return NessusErrorType.SCAN_NOT_FOUND;
+    case 409:
+      return NessusErrorType.SCAN_IN_PROGRESS;
+    case 429:
+      return NessusErrorType.RATE_LIMITED;
+    default:
+      if (status >= 500) {
+        return NessusErrorType.API_ERROR;
+      }
+      return NessusErrorType.API_ERROR;
+  }
+};
+
+/**
  * Handle errors from the Nessus API and convert them to MCP errors
  * @param error Error from the Nessus API
  */
 export const handleNessusApiError = (error: unknown): McpError => {
   if (error instanceof McpError) {
     return error;
+  }
+
+  // Handle DOMException for timeout and abort signals (native fetch)
+  if (error instanceof DOMException) {
+    if (error.name === 'TimeoutError') {
+      return createNessusError(
+        NessusErrorType.TIMEOUT,
+        'Request timed out while contacting the Tenable.io API',
+        { name: error.name, message: error.message }
+      );
+    }
+    if (error.name === 'AbortError') {
+      return createNessusError(
+        NessusErrorType.API_ERROR,
+        'Request was aborted',
+        { name: error.name, message: error.message }
+      );
+    }
   }
 
   if (error instanceof Error) {
