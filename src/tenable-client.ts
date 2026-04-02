@@ -52,7 +52,7 @@ export class TenableClient {
 
   constructor(config: TenableClientConfig) {
     this.config = {
-      baseUrl: config.baseUrl,
+      baseUrl: config.baseUrl.replace(/\/+$/, ''),
       accessKey: config.accessKey,
       secretKey: config.secretKey,
       timeoutMs: config.timeoutMs ?? 30_000,

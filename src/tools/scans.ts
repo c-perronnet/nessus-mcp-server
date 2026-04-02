@@ -257,70 +257,126 @@ export const listScansToolHandler = async () => {
   }
 };
 
+const SEVERITY_LABELS: Record<number, string> = {
+  0: 'INFO',
+  1: 'LOW',
+  2: 'MEDIUM',
+  3: 'HIGH',
+  4: 'CRITICAL',
+};
+
+function severityLabel(severity: number | string): string {
+  if (typeof severity === 'number') return SEVERITY_LABELS[severity] ?? 'UNKNOWN';
+  return String(severity).toUpperCase();
+}
+
 /**
- * Format scan results for better readability
- * @param results Scan results to format
+ * Format scan results for better readability.
+ * Handles both the real Tenable API response (TenableScanDetailsResponse)
+ * and the legacy mock-data shape.
  */
 const formatScanResults = (results: any): string => {
   if (!results || !results.vulnerabilities) {
     return JSON.stringify(results, null, 2);
   }
 
-  // Create a summary section
-  const summary = results.summary || {};
-  let formattedResults = `# Scan Results for ${results.target || 'Unknown Target'}\n\n`;
-  formattedResults += `Scan ID: ${results.scan_id || 'Unknown'}\n`;
-  formattedResults += `Scan Type: ${results.scan_type || 'Unknown'}\n`;
-  formattedResults += `Start Time: ${results.start_time || 'Unknown'}\n`;
-  formattedResults += `End Time: ${results.end_time || 'Unknown'}\n`;
-  formattedResults += `Status: ${results.status || 'Unknown'}\n\n`;
+  // Detect real API response (has .info object) vs mock shape
+  const isRealApi = results.info !== undefined;
 
-  // Add vulnerability summary
-  formattedResults += `## Vulnerability Summary\n\n`;
-  formattedResults += `Total Vulnerabilities: ${summary.total_vulnerabilities || 0}\n`;
-  formattedResults += `Critical: ${summary.critical || 0}\n`;
-  formattedResults += `High: ${summary.high || 0}\n`;
-  formattedResults += `Medium: ${summary.medium || 0}\n`;
-  formattedResults += `Low: ${summary.low || 0}\n`;
-  formattedResults += `Info: ${summary.info || 0}\n\n`;
+  let formattedResults: string;
 
-  // Add detailed vulnerability information
-  formattedResults += `## Vulnerabilities\n\n`;
+  if (isRealApi) {
+    const info = results.info;
+    formattedResults = `# Scan Results: ${info.name || 'Unknown'}\n\n`;
+    formattedResults += `Targets: ${info.targets || 'Unknown'}\n`;
+    formattedResults += `Status: ${info.status || 'Unknown'}\n`;
+    formattedResults += `Hosts: ${info.hostcount ?? 'Unknown'}\n\n`;
 
-  // Sort vulnerabilities by severity
-  const sortOrder = { 'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'info': 4 };
-  const sortedVulns = [...results.vulnerabilities].sort((a, b) => {
-    return (sortOrder[a.severity as keyof typeof sortOrder] || 999) -
-           (sortOrder[b.severity as keyof typeof sortOrder] || 999);
-  });
+    // Build summary from hosts array
+    const hosts: any[] = results.hosts || [];
+    const summary = { critical: 0, high: 0, medium: 0, low: 0, info: 0 };
+    hosts.forEach((h: any) => {
+      summary.critical += h.critical || 0;
+      summary.high += h.high || 0;
+      summary.medium += h.medium || 0;
+      summary.low += h.low || 0;
+      summary.info += h.info || 0;
+    });
 
-  // Format each vulnerability
-  sortedVulns.forEach((vuln, index) => {
-    formattedResults += `### ${index + 1}. ${vuln.name} (${vuln.id})\n\n`;
-    formattedResults += `Severity: ${vuln.severity.toUpperCase()}\n`;
-    formattedResults += `CVSS Score: ${vuln.cvss_score}\n\n`;
-    formattedResults += `${vuln.description}\n\n`;
+    formattedResults += `## Vulnerability Summary\n\n`;
+    formattedResults += `Total Vulnerabilities: ${results.vulnerabilities.length}\n`;
+    formattedResults += `Critical: ${summary.critical}\n`;
+    formattedResults += `High: ${summary.high}\n`;
+    formattedResults += `Medium: ${summary.medium}\n`;
+    formattedResults += `Low: ${summary.low}\n`;
+    formattedResults += `Info: ${summary.info}\n\n`;
 
-    if (vuln.affected_systems && vuln.affected_systems.length > 0) {
-      formattedResults += `Affected Systems:\n`;
-      vuln.affected_systems.forEach((system: string) => {
-        formattedResults += `- ${system}\n`;
-      });
-      formattedResults += '\n';
-    }
+    formattedResults += `## Vulnerabilities\n\n`;
 
-    if (vuln.remediation) {
-      formattedResults += `Remediation: ${vuln.remediation}\n\n`;
-    }
+    // Sort by severity descending (4=critical first)
+    const sortedVulns = [...results.vulnerabilities].sort(
+      (a: any, b: any) => (b.severity ?? 0) - (a.severity ?? 0),
+    );
 
-    if (vuln.references && vuln.references.length > 0) {
-      formattedResults += `References:\n`;
-      vuln.references.forEach((ref: string) => {
-        formattedResults += `- ${ref}\n`;
-      });
-      formattedResults += '\n';
-    }
-  });
+    sortedVulns.forEach((vuln: any, index: number) => {
+      formattedResults += `### ${index + 1}. ${vuln.plugin_name} (Plugin ${vuln.plugin_id})\n\n`;
+      formattedResults += `Severity: ${severityLabel(vuln.severity)}\n`;
+      formattedResults += `Family: ${vuln.plugin_family}\n`;
+      formattedResults += `Count: ${vuln.count}\n\n`;
+    });
+  } else {
+    // Legacy mock-data shape
+    const summary = results.summary || {};
+    formattedResults = `# Scan Results for ${results.target || 'Unknown Target'}\n\n`;
+    formattedResults += `Scan ID: ${results.scan_id || 'Unknown'}\n`;
+    formattedResults += `Scan Type: ${results.scan_type || 'Unknown'}\n`;
+    formattedResults += `Start Time: ${results.start_time || 'Unknown'}\n`;
+    formattedResults += `End Time: ${results.end_time || 'Unknown'}\n`;
+    formattedResults += `Status: ${results.status || 'Unknown'}\n\n`;
+
+    formattedResults += `## Vulnerability Summary\n\n`;
+    formattedResults += `Total Vulnerabilities: ${summary.total_vulnerabilities || 0}\n`;
+    formattedResults += `Critical: ${summary.critical || 0}\n`;
+    formattedResults += `High: ${summary.high || 0}\n`;
+    formattedResults += `Medium: ${summary.medium || 0}\n`;
+    formattedResults += `Low: ${summary.low || 0}\n`;
+    formattedResults += `Info: ${summary.info || 0}\n\n`;
+
+    formattedResults += `## Vulnerabilities\n\n`;
+
+    const sortOrder = { 'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'info': 4 };
+    const sortedVulns = [...results.vulnerabilities].sort((a: any, b: any) => {
+      return (sortOrder[a.severity as keyof typeof sortOrder] || 999) -
+             (sortOrder[b.severity as keyof typeof sortOrder] || 999);
+    });
+
+    sortedVulns.forEach((vuln: any, index: number) => {
+      formattedResults += `### ${index + 1}. ${vuln.name} (${vuln.id})\n\n`;
+      formattedResults += `Severity: ${severityLabel(vuln.severity)}\n`;
+      formattedResults += `CVSS Score: ${vuln.cvss_score}\n\n`;
+      formattedResults += `${vuln.description}\n\n`;
+
+      if (vuln.affected_systems && vuln.affected_systems.length > 0) {
+        formattedResults += `Affected Systems:\n`;
+        vuln.affected_systems.forEach((system: string) => {
+          formattedResults += `- ${system}\n`;
+        });
+        formattedResults += '\n';
+      }
+
+      if (vuln.remediation) {
+        formattedResults += `Remediation: ${vuln.remediation}\n\n`;
+      }
+
+      if (vuln.references && vuln.references.length > 0) {
+        formattedResults += `References:\n`;
+        vuln.references.forEach((ref: string) => {
+          formattedResults += `- ${ref}\n`;
+        });
+        formattedResults += '\n';
+      }
+    });
+  }
 
   return formattedResults;
 };
