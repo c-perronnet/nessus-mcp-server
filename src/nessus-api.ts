@@ -38,10 +38,10 @@ export const initializeNessusApi = (newConfig: Partial<NessusConfig> = {}) => {
   // Check if we have API credentials
   if (config.url && config.accessKey && config.secretKey) {
     config.useMock = false;
-    console.log("Nessus API client initialized with real API credentials");
+    console.error("Nessus API client initialized with real API credentials");
   } else {
     config.useMock = true;
-    console.log("Nessus API client initialized in mock mode");
+    console.error("Nessus API client initialized in mock mode");
   }
 
   return config;
