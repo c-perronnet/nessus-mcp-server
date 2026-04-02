@@ -20,9 +20,9 @@ interface NessusConfig {
   useMock: boolean;
 }
 
-// Default configuration
+// Default configuration — useMock must be explicitly set by caller
 const defaultConfig: NessusConfig = {
-  useMock: true
+  useMock: false
 };
 
 // Current configuration
@@ -35,14 +35,7 @@ let config: NessusConfig = { ...defaultConfig };
 export const initializeNessusApi = (newConfig: Partial<NessusConfig> = {}) => {
   config = { ...defaultConfig, ...newConfig };
 
-  // Check if we have API credentials
-  if (config.url && config.accessKey && config.secretKey) {
-    config.useMock = false;
-    console.error("Nessus API client initialized with real API credentials");
-  } else {
-    config.useMock = true;
-    console.error("Nessus API client initialized in mock mode");
-  }
+  console.error(`Nessus API client initialized in ${config.useMock ? 'mock' : 'real API'} mode`);
 
   return config;
 };
