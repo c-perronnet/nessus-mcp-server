@@ -174,16 +174,54 @@ export const listScans = async () => {
 
 /**
  * Get vulnerability details
- * @param vulnId Vulnerability ID (e.g., plugin ID)
+ * @param vulnId Vulnerability ID — accepts CVE ID (CVE-2021-44228), numeric plugin ID, or plugin name keyword
  */
 export const getVulnerabilityDetails = async (vulnId: string) => {
   if (config.useMock) {
     return getMockVulnerabilityDetails(vulnId);
   }
 
-  // Basic filter implementation. Phase 3 will refine filter logic.
+  const encodedId = encodeURIComponent(vulnId);
+
+  // CVE ID — use cve filter on workbenches
+  if (/^CVE-\d{4}-\d{4,}$/i.test(vulnId)) {
+    return getClient().get<TenableWorkbenchVulnsResponse>(
+      `/workbenches/vulnerabilities?filter.0.filter=cve&filter.0.quality=eq&filter.0.value=${encodedId}`,
+    );
+  }
+
+  // Numeric plugin ID — use dedicated plugin info endpoint
+  if (/^\d+$/.test(vulnId)) {
+    return getClient().get<unknown>(
+      `/workbenches/vulnerabilities/${encodedId}/info`,
+    );
+  }
+
+  // Fallback — treat as plugin name keyword search
   return getClient().get<TenableWorkbenchVulnsResponse>(
-    `/workbenches/vulnerabilities?filter.0.filter=plugin_id&filter.0.quality=eq&filter.0.value=${vulnId}`,
+    `/workbenches/vulnerabilities?filter.0.filter=plugin_name&filter.0.quality=match&filter.0.value=${encodedId}`,
+  );
+};
+
+/**
+ * Search vulnerabilities by keyword using the Workbenches API
+ * @param keyword Keyword to search for in plugin names
+ */
+export const searchVulnerabilities = async (keyword: string) => {
+  if (config.useMock) {
+    const { vulnerabilities } = await import('./mock-data.js');
+    return {
+      vulnerabilities: vulnerabilities.filter((v: { name: string; description: string }) =>
+        v.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        v.description.toLowerCase().includes(keyword.toLowerCase())
+      ),
+      total_vulnerability_count: 0,  // mock doesn't track this
+    };
+  }
+
+  const encodedKeyword = encodeURIComponent(keyword);
+  return getClient().get<TenableWorkbenchVulnsResponse>(
+    `/workbenches/vulnerabilities?filter.0.filter=plugin_name&filter.0.quality=match&filter.0.value=${encodedKeyword}`,
   );
 };
 
