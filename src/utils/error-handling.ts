@@ -213,12 +213,13 @@ export const validateTarget = (target: unknown): string => {
     );
   }
 
-  // Basic validation for IP address or hostname
-  const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$|^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-  if (!ipRegex.test(target)) {
+  // Permissive validation for IP, hostname, CIDR, ranges, and comma-separated lists.
+  // Tenable's text_targets field handles detailed server-side validation.
+  const targetRegex = /^[\d.\-\/,\s:a-zA-Z]+$/;
+  if (!targetRegex.test(target)) {
     throw createNessusError(
       NessusErrorType.INVALID_TARGET,
-      'Target must be a valid IP address or hostname'
+      'Target must be a valid IP address, hostname, CIDR range, or comma-separated list'
     );
   }
 
@@ -226,14 +227,12 @@ export const validateTarget = (target: unknown): string => {
 };
 
 /**
- * Validate that a scan type is provided and in the correct format
+ * Validate that a scan type is provided and in the correct format.
+ * Accepts any non-empty string — both template UUIDs and friendly names.
+ * The Tenable.io API validates the UUID server-side.
  * @param scanType Scan type to validate
- * @param validTypes List of valid scan types
  */
-export const validateScanType = (
-  scanType: unknown,
-  validTypes: string[] = ['basic-network-scan', 'web-app-scan', 'compliance-scan']
-): string => {
+export const validateScanType = (scanType: unknown): string => {
   if (!scanType) {
     throw createNessusError(
       NessusErrorType.INVALID_SCAN_TYPE,
@@ -245,13 +244,6 @@ export const validateScanType = (
     throw createNessusError(
       NessusErrorType.INVALID_SCAN_TYPE,
       'Scan type must be a string'
-    );
-  }
-
-  if (!validTypes.includes(scanType)) {
-    throw createNessusError(
-      NessusErrorType.INVALID_SCAN_TYPE,
-      `Scan type must be one of: ${validTypes.join(', ')}`
     );
   }
 
