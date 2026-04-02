@@ -38,17 +38,26 @@ import {
 
 // Initialize the Nessus API client
 const initializeApi = () => {
-  // Check for environment variables
   const nessusUrl = process.env.NESSUS_URL;
   const nessusAccessKey = process.env.NESSUS_ACCESS_KEY;
   const nessusSecretKey = process.env.NESSUS_SECRET_KEY;
 
-  // Initialize the API client
+  if (!nessusUrl || !nessusAccessKey || !nessusSecretKey) {
+    const missing = [
+      !nessusUrl && 'NESSUS_URL',
+      !nessusAccessKey && 'NESSUS_ACCESS_KEY',
+      !nessusSecretKey && 'NESSUS_SECRET_KEY'
+    ].filter(Boolean).join(', ');
+    console.error(`Error: Missing required environment variables: ${missing}`);
+    console.error('Set NESSUS_URL, NESSUS_ACCESS_KEY, and NESSUS_SECRET_KEY to start the server.');
+    process.exit(1);
+  }
+
   return initializeNessusApi({
     url: nessusUrl,
     accessKey: nessusAccessKey,
     secretKey: nessusSecretKey,
-    useMock: !(nessusUrl && nessusAccessKey && nessusSecretKey)
+    useMock: false
   });
 };
 
