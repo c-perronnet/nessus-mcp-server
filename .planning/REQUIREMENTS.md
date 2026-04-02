@@ -83,8 +83,8 @@ Requirements for production-ready Tenable.io integration. Each maps to roadmap p
 - [x] **TEST-01**: Vitest test framework configured and working with ESM/TypeScript
 - [x] **TEST-02**: Unit tests for `tenable-client.ts` HTTP functions (mocked fetch)
 - [x] **TEST-03**: Unit tests for input validation functions in `error-handling.ts`
-- [ ] **TEST-04**: Tool handler tests for all 7 tools in mock mode
-- [ ] **TEST-05**: Startup credential validation tested (fail-fast path)
+- [x] **TEST-04**: Tool handler tests for all 7 tools in mock mode
+- [x] **TEST-05**: Startup credential validation tested (fail-fast path)
 
 ## v2 Requirements
 
@@ -161,8 +161,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEST-01 | Phase 4 | Complete |
 | TEST-02 | Phase 4 | Complete |
 | TEST-03 | Phase 4 | Complete |
-| TEST-04 | Phase 4 | Pending |
-| TEST-05 | Phase 4 | Pending |
+| TEST-04 | Phase 4 | Complete |
+| TEST-05 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 43 total
