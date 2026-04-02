@@ -57,7 +57,11 @@ Plans:
   3. `get_scan_status` and `get_scan_results` accept integer scan IDs and call `GET /scans/{id}`, with severity values correctly mapped from integers (0–4) to labels (info/low/medium/high/critical)
   4. `list_scans` handles a `null` scans list from the API (empty account) without crashing and converts epoch timestamps to readable format
   5. `search_vulnerabilities` routes through `nessus-api.ts` (not direct mock data import) and `get_vulnerability_details` accepts both CVE ID and plugin ID as input
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Scan tools: validators, two-step startScan, listScans enhancements, scan results incomplete handling, templates graceful 403
+- [ ] 03-02-PLAN.md — Vulnerability tools: searchVulnerabilities + getVulnerabilityDetails via Workbenches API, rewired handlers, real-API formatters
 
 ### Phase 4: Test Suite
 **Goal**: Automated tests validate all 7 tool handlers, the HTTP client in isolation, error paths, and the startup credential check — with no real Tenable.io API calls required
@@ -79,5 +83,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Safety and Correctness | 2/2 | Complete    | 2026-04-02 |
 | 2. HTTP Client and Infrastructure | 2/2 | Complete    | 2026-04-02 |
-| 3. Real Tenable.io API Integration | 0/TBD | Not started | - |
+| 3. Real Tenable.io API Integration | 0/2 | Not started | - |
 | 4. Test Suite | 0/TBD | Not started | - |
