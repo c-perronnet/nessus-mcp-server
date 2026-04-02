@@ -11,8 +11,8 @@ Requirements for production-ready Tenable.io integration. Each maps to roadmap p
 
 - [ ] **SAFE-01**: Server uses `console.error` exclusively for logging (no stdout contamination of MCP stdio transport)
 - [ ] **SAFE-02**: Dead zod schemas removed from `scans.ts` (no duplicate validation paths)
-- [ ] **SAFE-03**: tsconfig updated for Node 22 LTS (`lib: ["ES2022", "DOM"]`, `module`/`moduleResolution`: `NodeNext`)
-- [ ] **SAFE-04**: `node-fetch` dependency removed; all HTTP calls use Node 22 native `fetch`
+- [x] **SAFE-03**: tsconfig updated for Node 22 LTS (`lib: ["ES2022", "DOM"]`, `module`/`moduleResolution`: `NodeNext`)
+- [x] **SAFE-04**: `node-fetch` dependency removed; all HTTP calls use Node 22 native `fetch`
 - [ ] **SAFE-05**: Server validates API credentials at startup and fails fast with clear error if missing (no silent mock fallback)
 
 ### Tenable.io HTTP Client
@@ -122,8 +122,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | SAFE-01 | Phase 1 | Pending |
 | SAFE-02 | Phase 1 | Pending |
-| SAFE-03 | Phase 1 | Pending |
-| SAFE-04 | Phase 1 | Pending |
+| SAFE-03 | Phase 1 | Complete |
+| SAFE-04 | Phase 1 | Complete |
 | SAFE-05 | Phase 1 | Pending |
 | HTTP-01 | Phase 2 | Pending |
 | HTTP-02 | Phase 2 | Pending |

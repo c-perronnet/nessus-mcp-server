@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. `tsconfig.json` targets Node 22 with `lib: ["ES2022", "DOM"]` and `moduleResolution: NodeNext`
   4. Starting the server without API credentials in environment produces an explicit error and exits — it does not silently enter mock mode
   5. `src/tools/scans.ts` contains no dead Zod schemas that duplicate validation already performed elsewhere
-**Plans**: TBD
+**Plans**: 2 (01-PLAN.md: tsconfig + node-fetch; 02-PLAN.md: stdout fix + dead code + fail-fast)
 
 ### Phase 2: HTTP Client and Infrastructure
 **Goal**: A dedicated Tenable.io HTTP client exists with auth, timeouts, retry, and rate limiting; all API response shapes are typed; error types cover all failure modes
