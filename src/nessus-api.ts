@@ -20,6 +20,7 @@ import type {
   TenableCreateScanResponse,
   TenableLaunchScanResponse,
   TenableWorkbenchVulnsResponse,
+  TenableHostDetailsResponse,
 } from './types/tenable.js';
 
 // Configuration for Nessus API
@@ -223,6 +224,32 @@ export const searchVulnerabilities = async (keyword: string) => {
   return getClient().get<TenableWorkbenchVulnsResponse>(
     `/workbenches/vulnerabilities?filter.0.filter=plugin.name&filter.0.quality=match&filter.0.value=${encodedKeyword}`,
   );
+};
+
+/**
+ * List hosts in a scan with per-host severity counts
+ * @param scanId ID of the scan
+ */
+export const listScanHosts = async (scanId: string) => {
+  if (config.useMock) {
+    return { hosts: [] };
+  }
+
+  const result = await getClient().get<TenableScanDetailsResponse>(`/scans/${scanId}`);
+  return { hosts: result.hosts ?? [] };
+};
+
+/**
+ * Get vulnerabilities for a specific host in a scan
+ * @param scanId ID of the scan
+ * @param hostId ID of the host within the scan
+ */
+export const getHostVulnerabilities = async (scanId: string, hostId: string) => {
+  if (config.useMock) {
+    return { info: {}, vulnerabilities: [] };
+  }
+
+  return getClient().get<TenableHostDetailsResponse>(`/scans/${scanId}/hosts/${hostId}`);
 };
 
 /**

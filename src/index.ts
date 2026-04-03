@@ -26,7 +26,11 @@ import {
   getScanResultsToolSchema,
   getScanResultsToolHandler,
   listScansToolSchema,
-  listScansToolHandler
+  listScansToolHandler,
+  listScanHostsToolSchema,
+  listScanHostsToolHandler,
+  getHostVulnerabilitiesToolSchema,
+  getHostVulnerabilitiesToolHandler
 } from './tools/scans.js';
 
 import {
@@ -88,6 +92,8 @@ const createServer = () => {
           getScanStatusToolSchema,
           getScanResultsToolSchema,
           listScansToolSchema,
+          listScanHostsToolSchema,
+          getHostVulnerabilitiesToolSchema,
           getVulnerabilityDetailsToolSchema,
           searchVulnerabilitiesToolSchema
         ]
@@ -114,6 +120,10 @@ const createServer = () => {
             return await getScanResultsToolHandler(args);
           case 'list_scans':
             return await listScansToolHandler();
+          case 'list_scan_hosts':
+            return await listScanHostsToolHandler(args);
+          case 'get_host_vulnerabilities':
+            return await getHostVulnerabilitiesToolHandler(args);
           case 'get_vulnerability_details':
             return await getVulnerabilityDetailsToolHandler(args);
           case 'search_vulnerabilities':

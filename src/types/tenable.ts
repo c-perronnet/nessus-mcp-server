@@ -167,6 +167,32 @@ export interface TenableLaunchScanResponse {
 }
 
 // ---------------------------------------------------------------------------
+// Per-host vulnerability types (GET /scans/{id}/hosts/{host_id})
+// ---------------------------------------------------------------------------
+
+export interface TenableHostVulnerability {
+  plugin_id: number;
+  plugin_name: string;
+  plugin_family: string;
+  severity: number;
+  host_id: number;
+  hostname: string;
+  count: number;
+}
+
+export interface TenableHostDetailsResponse {
+  info: {
+    host_start: string;
+    host_end: string;
+    operating_system: string[];
+    host_fqdn: string;
+    host_ip: string;
+    mac_address: string;
+  };
+  vulnerabilities: TenableHostVulnerability[];
+}
+
+// ---------------------------------------------------------------------------
 // Workbench vulnerability types
 // ---------------------------------------------------------------------------
 

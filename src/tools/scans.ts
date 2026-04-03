@@ -7,7 +7,9 @@ import {
   startScan,
   getScanStatus,
   getScanResults,
-  listScans
+  listScans,
+  listScanHosts,
+  getHostVulnerabilities
 } from '../nessus-api.js';
 import {
   validateScanId,
@@ -417,4 +419,109 @@ const formatScanResults = (results: any): string => {
   }
 
   return formattedResults;
+};
+
+/**
+ * Tool to list hosts in a scan with per-host severity counts
+ */
+export const listScanHostsToolSchema = {
+  name: 'list_scan_hosts',
+  description: 'List all hosts in a completed scan with per-host vulnerability severity counts (critical, high, medium, low, info)',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      scan_id: {
+        type: 'string',
+        description: 'The ID of the scan to list hosts for'
+      }
+    },
+    required: ['scan_id']
+  }
+};
+
+export const listScanHostsToolHandler = async (args: Record<string, unknown>) => {
+  try {
+    const scanId = validateScanId(args.scan_id);
+    const result = await listScanHosts(scanId);
+    const hosts = result.hosts || [];
+
+    let text = `# Scan Hosts (${hosts.length} hosts)\n\n`;
+    text += `| Host | Critical | High | Medium | Low | Info | Score |\n`;
+    text += `|------|----------|------|--------|-----|------|-------|\n`;
+
+    for (const host of hosts) {
+      text += `| ${host.hostname} (ID: ${host.host_id}) | ${host.critical} | ${host.high} | ${host.medium} | ${host.low} | ${host.info} | ${host.score} |\n`;
+    }
+
+    return {
+      content: [{ type: 'text', text }]
+    };
+  } catch (error) {
+    const mcpError = handleNessusApiError(error);
+    return {
+      content: [{ type: 'text', text: `Error: ${mcpError.message}` }],
+      isError: true
+    };
+  }
+};
+
+/**
+ * Tool to get vulnerabilities for a specific host in a scan
+ */
+export const getHostVulnerabilitiesToolSchema = {
+  name: 'get_host_vulnerabilities',
+  description: 'Get detailed vulnerabilities for a specific host in a scan, including plugin names, severity, and counts',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      scan_id: {
+        type: 'string',
+        description: 'The ID of the scan'
+      },
+      host_id: {
+        type: 'string',
+        description: 'The host ID within the scan (from list_scan_hosts)'
+      }
+    },
+    required: ['scan_id', 'host_id']
+  }
+};
+
+export const getHostVulnerabilitiesToolHandler = async (args: Record<string, unknown>) => {
+  try {
+    const scanId = validateScanId(args.scan_id);
+    const hostId = String(args.host_id || '');
+    if (!hostId || !/^\d+$/.test(hostId)) {
+      return {
+        content: [{ type: 'text', text: 'Error: host_id must be a numeric ID (use list_scan_hosts to find host IDs)' }],
+        isError: true
+      };
+    }
+
+    const result = await getHostVulnerabilities(scanId, hostId);
+    const info = result.info || {};
+    const vulns = result.vulnerabilities || [];
+
+    let text = `# Host Vulnerabilities: ${(info as any).host_ip || 'Unknown'}\n\n`;
+    text += `FQDN: ${(info as any).host_fqdn || 'N/A'}\n`;
+    text += `OS: ${Array.isArray((info as any).operating_system) ? (info as any).operating_system.join(', ') : 'N/A'}\n`;
+    text += `Scan period: ${(info as any).host_start || '?'} → ${(info as any).host_end || '?'}\n\n`;
+
+    text += `## Vulnerabilities (${vulns.length})\n\n`;
+
+    const sorted = [...vulns].sort((a: any, b: any) => (b.severity ?? 0) - (a.severity ?? 0));
+    for (const vuln of sorted) {
+      text += `- **${severityLabel((vuln as any).severity)}** ${(vuln as any).plugin_name} (Plugin ${(vuln as any).plugin_id}, count: ${(vuln as any).count})\n`;
+    }
+
+    return {
+      content: [{ type: 'text', text }]
+    };
+  } catch (error) {
+    const mcpError = handleNessusApiError(error);
+    return {
+      content: [{ type: 'text', text: `Error: ${mcpError.message}` }],
+      isError: true
+    };
+  }
 };
