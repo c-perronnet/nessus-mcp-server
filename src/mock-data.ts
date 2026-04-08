@@ -178,7 +178,7 @@ export const generateMockScanResults = (targetIp: string, scanType: string) => {
     .slice(0, numVulns);
 
   // Generate scan metadata
-  const scanId = `scan-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  const scanId = String(Math.floor(Math.random() * 900000) + 100000);
   const startTime = new Date(Date.now() - Math.random() * 3600000);
   const endTime = new Date(startTime.getTime() + (Math.random() * 3600000));
 
@@ -207,7 +207,7 @@ export const mockScans = new Map();
 
 // Function to create a new mock scan
 export const createMockScan = (target: string, scanType: string) => {
-  const scanId = `scan-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  const scanId = String(Math.floor(Math.random() * 900000) + 100000);
   const scan = {
     id: scanId,
     target: target,

@@ -30,8 +30,8 @@ describe('validateScanId', () => {
     expect(() => validateScanId(undefined)).toThrow(McpError);
   });
 
-  it('throws for non-string (number)', () => {
-    expect(() => validateScanId(123)).toThrow(McpError);
+  it('coerces numeric input to string', () => {
+    expect(validateScanId(123)).toBe('123');
   });
 
   it('throws with InvalidParams code', () => {

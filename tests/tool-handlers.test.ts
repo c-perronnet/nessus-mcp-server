@@ -105,12 +105,10 @@ describe('get_scan_status', () => {
     expect(parsed.status).toBeDefined();
   });
 
-  it('returns isError for invalid scan_id', async () => {
+  it('returns isError for non-numeric scan_id', async () => {
     const result = await getScanStatusToolHandler({ scan_id: 'nonexistent-id-999' });
     assertMcpContent(result);
-    // Mock returns { error: "Scan not found" } which the handler wraps
-    // The handler does not set isError for mock "error" field -- it just serializes
-    // Check that it at least returns valid content without crashing
+    expect(result.isError).toBe(true);
   });
 
   it('returns isError for missing scan_id', async () => {

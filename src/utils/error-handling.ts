@@ -162,14 +162,16 @@ export const validateScanId = (scanId: unknown): string => {
     );
   }
 
-  if (typeof scanId !== 'string') {
+  const id = String(scanId);
+
+  if (!/^\d+$/.test(id)) {
     throw createNessusError(
       NessusErrorType.SCAN_NOT_FOUND,
-      'Scan ID must be a string'
+      'Scan ID must be a numeric string'
     );
   }
 
-  return scanId;
+  return id;
 };
 
 /**

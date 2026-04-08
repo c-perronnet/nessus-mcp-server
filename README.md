@@ -1,5 +1,7 @@
 # Nessus MCP Server
 
+**Version 1.0.0**
+
 A [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server for interacting with the [Tenable.io](https://cloud.tenable.com) vulnerability scanner. This server allows AI assistants (Claude, etc.) to perform vulnerability scanning and analysis through the MCP protocol.
 
 ## Features
@@ -19,6 +21,8 @@ A [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server for in
 | `start_scan` | Start a new vulnerability scan against a target |
 | `get_scan_status` | Check the status of a running or completed scan |
 | `get_scan_results` | Get formatted vulnerability results from a completed scan |
+| `list_scan_hosts` | List all hosts in a completed scan with per-host vulnerability severity counts |
+| `get_host_vulnerabilities` | Get detailed vulnerabilities for a specific host in a scan |
 | `get_vulnerability_details` | Get detailed information about a specific vulnerability (e.g. CVE-2021-44228) |
 | `search_vulnerabilities` | Search for vulnerabilities by keyword |
 
@@ -26,6 +30,17 @@ A [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server for in
 
 - **Node.js** 18+ (uses native `fetch` and `AbortSignal.timeout`)
 - **Tenable.io account** with API keys ([generate here](https://cloud.tenable.com/settings/my-account/api-keys))
+
+### Dependencies
+
+| Package | Version | Purpose |
+| --- | --- | --- |
+| `@modelcontextprotocol/sdk` | ^1.8.0 | MCP protocol implementation |
+| `p-retry` | ^8.0.0 | Exponential backoff retries for API calls |
+| `p-throttle` | ^8.1.0 | Client-side rate limiting |
+| `zod` | ^3.24.2 | Input validation and schema parsing |
+| `typescript` | ^5.8.2 | TypeScript compiler (dev) |
+| `vitest` | ^4.1.2 | Test runner (dev) |
 
 ## Installation
 
@@ -184,6 +199,25 @@ Returns the scan's current status, name, targets, host count, and start/end time
   target: "192.168.1.0/24"
   scan_type: "basic-network-scan"
 ```
+
+### List hosts in a scan
+
+```
+> list_scan_hosts
+  scan_id: "243"
+```
+
+Returns all scanned hosts with their IP/hostname and per-host severity breakdown (critical, high, medium, low, info).
+
+### Get host vulnerabilities
+
+```
+> get_host_vulnerabilities
+  scan_id: "243"
+  host_id: "2"
+```
+
+Returns detailed vulnerabilities for a specific host, including plugin name, severity, family, and count.
 
 ### Search vulnerabilities
 
